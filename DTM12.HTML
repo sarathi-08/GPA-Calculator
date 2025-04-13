@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>GPA Calculator></title>
+</head>
+<body background  ="black" >  
+<h1 class="style">
+      <font color="green" size="7%" face="ALGERIAN"> <CENTER> SATHYABAMA UNIVERSITY </CENTER> </FONT>       
+      </h1>
+    <h1><center>GPA Calculator</center></h1>
+
+    <form id="gpaForm">
+        <label for="subjectName"><font color="green" size="5%" face="gill sans">Subject Name:</font></label>
+   <style>
+      input[type=text]{
+ width:25%;
+border:5px solid #aaa;
+ border-radius:2px;
+margin:8px0;
+outine:none; padding:10px}</style>
+        <input type="text" id="subjectName" placeholder="Enter subject name">
+        <br>
+
+       
+<label for="grade"><font color="blue violet" size="5%" face="Script MT "> Grade:  </FONT>  </label>
+        <select id="grade">
+            <option value="A"> A </option>
+            <option value="B"> B </option>
+            <option value="C"> C</option>
+            <option value="D"> D </option>
+            <option value="F"> F </option>
+            <option value="AB"> AB</option>
+           
+        </select>
+        <br>
+
+        <label for="creditHours"><font color="green" size="5%" face="courier">Credit Hours:</font></label>
+
+<style>
+      input[type=number]{
+ width:25%;
+border:5px solid #aaa;
+ border-radius:2px;
+margin:8px0;
+outine:none; padding:8px}</style>
+        <input type="number" id="creditHours" placeholder="Enter credit hours">
+        <br>
+
+       <button type="button"style="height:75px;width:100px" id="addSubject">Add Subject</button>
+        <br>
+
+        <center> <ul id="subjectList">
+             <!-- Subjects will be displayed here -->
+        </ul></center>
+
+        <button type="button"style="background-color: lightgreen;height:50px;width:100px" id="calculateGPA">Calculate GPA</button>
+    </form>
+
+    <h2><font color="red" size="7%" face="cooper black"><center>Your GPA is:<span id="result">-</span></h2>
+</center></font> 
+
+    <script>
+        const subjects = [];
+
+        document.getElementById("addSubject").addEventListener("click", function () {
+            const subjectName = document.getElementById("subjectName").value;
+            const grade = document.getElementById("grade").value;
+            const creditHours = parseFloat(document.getElementById("creditHours").value);
+
+            if (subjectName && grade && !isNaN(creditHours) && creditHours > 0) {
+                subjects.push({ name: subjectName, grade: grade, credit: creditHours });
+                document.getElementById("subjectList").innerHTML += `<li>${subjectName} - Grade: ${grade}, Credit Hours: ${creditHours}</li>`;
+                
+                document.getElementById("subjectName").value = "";
+                document.getElementById("grade").value = "A";
+                document.getElementById("creditHours").value = "";
+            }
+        });
+
+        document.getElementById("calculateGPA").addEventListener("click", function () {
+            if (subjects.length === 0) {
+                alert("Please add at least one subject.");
+                return;
+            }
+
+            let totalGradePoints = 0;
+            let totalCredits = 0;
+
+            for (const subject of subjects) {
+                switch (subject.grade) {
+                    case 'A':
+                        totalGradePoints += 4.0 * subject.credit;
+                        break;
+                    case 'B':
+                        totalGradePoints += 3.0 * subject.credit;
+                        break;
+                    case 'C':
+                        totalGradePoints += 2.0 * subject.credit;
+                        break;
+                    case 'D':
+                        totalGradePoints += 1.0 * subject.credit;
+                        break;
+                    case 'F':
+                        totalGradePoints += 0.0 * subject.credit;
+                        break;
+                     case 'AB':
+                        totalGradePoints += 0.0 * subject.credit;
+                        break;
+                  }
+                totalCredits += subject.credit;
+            }
+
+            const gpa = totalGradePoints / totalCredits;
+            document.getElementById("result").textContent = gpa.toFixed(2);
+        });
+    </script>
+</body>
+</html>
